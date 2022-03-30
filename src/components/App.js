@@ -38,6 +38,7 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
+    if (loggedIn) {
     api
       .getInitialCards()
       .then((data) => {
@@ -46,9 +47,11 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-  }, []);
+    }
+  }, [loggedIn]);
 
   React.useEffect(() => {
+    if (loggedIn) {
     api
       .getUserInfo()
       .then((res) => {
@@ -60,7 +63,8 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-  }, []);
+    }
+  }, [loggedIn]);
 
   const tokenCheck = () => {
     const token = localStorage.getItem('token');
@@ -68,7 +72,7 @@ function App() {
       return;
     }
     auth
-      .getContent(localStorage.getItem('token'))
+      .getContent(token)
       .then((res) => {
       setLoggedIn(true);
       setCurrentUser((user) => ({
@@ -113,7 +117,8 @@ function App() {
       tokenCheck();
     })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`)
+        console.log(`Ошибка: ${err}`);
+        setIsInfoTooltipOpen(true);
     })
   };
 
@@ -240,7 +245,15 @@ function App() {
             />
           </Route>
           <Route path="/sign-in">
-            <Login onLogin={onLogin} />
+            <Login
+              onLogin={onLogin}
+            />
+            <InfoTooltip
+              isOpen={inInfoTooltipOpen}
+              registerSuccess={registerSuccess}
+              onClose={closeAllPopups}
+            />
+
           </Route>
           <ProtectedRoute exact path="/" loggedIn={loggedIn}>
             <Main
