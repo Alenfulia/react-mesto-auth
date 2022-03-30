@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './components/App';
-import reportWebVitals from './reportWebVitals';
+
 
 ReactDOM.render(
   <BrowserRouter>
@@ -11,6 +11,3 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root')
 );
-
-
-reportWebVitals();
